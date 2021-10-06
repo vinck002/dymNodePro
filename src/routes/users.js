@@ -1,11 +1,11 @@
 const router= require('express').Router();
 
 router.get('/users/signin',(req,res)=>{
-    res.send('<p>Signing </p>');
+    res.render('users/signin.hbs');
 })
 
-router.get('/users/sigup',(req,res)=>{
-    res.send('<p>Sign up </p>');
+router.get('/users/signup',(req,res)=>{
+    res.render('users/signup.hbs');
 })
 
 
