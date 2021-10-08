@@ -1,29 +1,37 @@
 const router= require('express').Router();
+const ModelNotes = require('../models/note');
 
-router.get('/notes/notes',(req,res)=>{
-    res.send('<p>aqui van las notas </p>');
-})
+router.get('/notes',async (req,res)=>{
 
-router.post('/notes/new-note',(req,res) =>{
-    const {Email_Sub,Pass} = req.body;
+    const Datos_notes = ModelNotes.find();
+    res.render('notes/all_notes',Datos_notes)
+    
+});
+
+
+router.post('/notes/new-note',  async (req,res) =>{
+    const {Tittle,Description} = req.body;
     const error = [];
-    if (!Email_Sub ) {
-        error.push({tet:"please write a Email"})
+    if (!Tittle) {
+        error.push({tet:"Please write a Tittle"})
     }
-    if (!Pass ) {
-        error.push({tet:"please write a Password"})
+    if (!Description ) {
+        error.push({tet:"Please write a Description"})
     }
     if (error.length > 0) {
         res.render('notes/new-note',{
             error,
-            Email_Sub,
-            Pass
+            Tittle,
+            Description
         });
     }else{
-        res.send('Ok')
+       const newNotes = new ModelNotes(req.body);
+    await newNotes.save();
+     res.redirect('/notes');
+    // console.log(newNotes);
     }
 
-    // console.log(Email_Sub,Pass);
+     
 
 });
 
